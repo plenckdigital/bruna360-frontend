@@ -4,13 +4,846 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BT 360">
 <meta name="theme-color" content="#1A1614">
-<title>Bruna Tessaro - Agencia 360</title>
+<link rel="manifest" href="manifest.json">
+<title>Bruna Tessaro — Agência 360°</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#B8924A;--gold-l:#F5EDD6;--gold-m:#D4AA6A;--gold-d:#7A5A1E;
+  --rose:#C2507A;--rose-l:#FDEEF5;--rose-m:#E891B4;--rose-d:#8B2A50;
+  --ink:#1A1614;--ink2:#3D3430;--muted:#7A7470;--light:#B0ADA8;
+  --surf:#FAFAF8;--surf2:#F4F2EE;--bord:#E8E4DC;--bord2:#D8D4CC;
+  --white:#FFFFFF;--ok:#2D7D4F;--ok-bg:#E8F5EE;
+  --warn:#B45309;--warn-bg:#FEF3C7;--info:#1A5FAB;--info-bg:#E8F0FB;
+  --danger:#C0392B;--danger-bg:#FDECEA;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'DM Sans',sans-serif;background:var(--surf);color:var(--ink);height:100dvh;overflow:hidden;display:flex;flex-direction:column}
+ 
+/* SPLASH */
+#splash{position:fixed;inset:0;z-index:9999;background:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s}
+#splash.out{opacity:0;pointer-events:none}
+.sp-orn{font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:.3em;color:var(--gold-m);margin-bottom:28px;text-transform:uppercase}
+.sp-logo{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:var(--white);letter-spacing:.04em;line-height:1;margin-bottom:6px}
+.sp-logo span{color:var(--gold-m);font-style:italic}
+.sp-sub{font-size:11px;letter-spacing:.18em;color:var(--light);font-weight:300;text-transform:uppercase;margin-bottom:48px}
+.sp-bar{width:160px;height:1px;background:rgba(255,255,255,.12);position:relative;overflow:hidden}
+.sp-fill{position:absolute;top:0;left:-100%;width:100%;height:100%;background:var(--gold-m);animation:bfill 2s ease forwards}
+@keyframes bfill{to{left:0}}
+ 
+/* ONBOARDING */
+#onboarding{position:fixed;inset:0;z-index:999;background:var(--white);display:flex;flex-direction:column;overflow-y:auto;transition:transform .5s cubic-bezier(.4,0,.2,1)}
+#onboarding.out{transform:translateY(-100%)}
+.ob-hdr{background:var(--ink);padding:44px 28px 28px}
+.ob-step{font-size:11px;letter-spacing:.12em;color:var(--gold-m);text-transform:uppercase;margin-bottom:10px}
+.ob-title{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:400;color:var(--white);line-height:1.15}
+.ob-title em{color:var(--gold-m);font-style:italic}
+.ob-body{flex:1;padding:22px 18px 28px}
+.ob-sec{margin-bottom:24px}
+.ob-lbl{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:block}
+.ob-pills{display:flex;flex-wrap:wrap;gap:7px}
+.ob-pill{font-size:12px;padding:7px 15px;border-radius:999px;border:1.5px solid var(--bord2);background:transparent;cursor:pointer;color:var(--muted);transition:all .2s;font-family:'DM Sans',sans-serif}
+.ob-pill.sg{border-color:var(--gold);background:var(--gold-l);color:var(--gold-d);font-weight:500}
+.ob-pill.sr{border-color:var(--rose);background:var(--rose-l);color:var(--rose-d);font-weight:500}
+.ob-input{width:100%;padding:11px 14px;border:1.5px solid var(--bord2);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--surf);outline:none;transition:border-color .2s}
+.ob-input:focus{border-color:var(--gold);background:var(--white)}
+.ob-input::placeholder{color:var(--light)}
+.ob-foot{padding:14px 18px 28px;border-top:1px solid var(--bord);background:var(--white)}
+.ob-btn{width:100%;padding:14px;background:var(--ink);color:var(--white);border:none;border-radius:12px;font-size:15px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer}
+ 
+/* PROFILE SCREEN */
+#ps{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;background:var(--surf);transition:transform .4s cubic-bezier(.4,0,.2,1)}
+#ps.out{transform:translateY(100%)}
+.ps-top{background:var(--ink);padding:44px 22px 26px}
+.ps-greet{font-size:11px;letter-spacing:.1em;color:var(--gold-m);text-transform:uppercase;margin-bottom:7px}
+.ps-title{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:400;color:var(--white);line-height:1.1}
+.ps-title em{color:var(--gold-m);font-style:italic}
+.ps-body{flex:1;overflow-y:auto;padding:18px 15px}
+.ps-lbl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;display:block}
+.al-box{border-radius:14px;padding:13px 15px;margin-bottom:12px;border:1.5px solid;display:flex;gap:11px;align-items:flex-start}
+.al-box.u{background:var(--danger-bg);border-color:#F5C6C2}
+.al-box.s{background:var(--warn-bg);border-color:#FCD78A}
+.al-box.p{background:var(--info-bg);border-color:#B3D1F5}
+.al-ico{font-size:20px;flex-shrink:0}
+.al-ttl{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:2px}
+.al-desc{font-size:11px;color:var(--muted);line-height:1.5}
+.al-days{font-size:11px;font-weight:600;margin-top:4px}
+.al-days.u{color:var(--danger)}.al-days.s{color:var(--warn)}.al-days.p{color:var(--info)}
+.al-btn{font-size:11px;padding:4px 10px;border-radius:999px;border:none;cursor:pointer;margin-top:5px;font-family:'DM Sans',sans-serif;font-weight:500;color:var(--white)}
+.al-box.u .al-btn{background:var(--danger)}
+.al-box.s .al-btn{background:var(--warn)}
+.al-box.p .al-btn{background:var(--info)}
+.pc{border-radius:18px;padding:17px 15px;margin-bottom:11px;cursor:pointer;border:1.5px solid transparent;transition:transform .15s;position:relative;overflow:hidden}
+.pc:active{transform:scale(.98)}
+.pc.j{background:var(--gold-l);border-color:#E0CC98}
+.pc.s{background:var(--rose-l);border-color:#F0C8D8}
+.pc-top{display:flex;align-items:center;gap:12px;margin-bottom:9px}
+.pc-av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--white);flex-shrink:0}
+.avj{background:linear-gradient(135deg,#9A6820,#C9A84C)}
+.avs{background:linear-gradient(135deg,#B03468,#E891B4)}
+.pc-name{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:1px}
+.pc-hdl{font-size:11px;color:var(--muted)}
+.pc-desc{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:9px}
+.pc-pills{display:flex;flex-wrap:wrap;gap:5px}
+.pill{font-size:10px;padding:3px 8px;border-radius:999px;font-weight:500}
+.pj{background:rgba(184,146,74,.18);color:var(--gold-d)}
+.ps2{background:rgba(194,80,122,.15);color:var(--rose-d)}
+.pc-arr{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:20px;color:var(--light)}
+ 
+/* APP */
+#app{display:none;flex-direction:column;height:100dvh}
+#app.show{display:flex}
+.app-hdr{background:var(--white);border-bottom:1px solid var(--bord);padding:11px 13px 10px;display:flex;align-items:center;gap:9px;flex-shrink:0;z-index:10}
+.hbk{width:32px;height:32px;border-radius:50%;background:var(--surf2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--muted);flex-shrink:0}
+.hav{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;color:var(--white);flex-shrink:0}
+.hi{flex:1;min-width:0}
+.hn{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:1px}
+.hs{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--muted)}
+.hd2{width:6px;height:6px;border-radius:50%;background:#4CAF50;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.hbdg{font-size:10px;padding:3px 8px;border-radius:999px;font-weight:500;flex-shrink:0}
+.hmenu{width:32px;height:32px;border-radius:8px;background:var(--surf2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--muted);flex-shrink:0}
+.mod-hdr{background:var(--surf2);border-bottom:1px solid var(--bord);padding:9px 13px;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.mi{font-size:15px;color:var(--muted)}.ml{font-size:12px;font-weight:500;color:var(--ink2)}.mb2{font-size:10px;padding:2px 6px;border-radius:999px;margin-left:auto}
+ 
+/* MESSAGES */
+.msgs{flex:1;overflow-y:auto;padding:13px 12px;display:flex;flex-direction:column;gap:11px;scroll-behavior:smooth}
+.msgs::-webkit-scrollbar{width:0}
+.mr{display:flex;align-items:flex-end;gap:8px}
+.mr.u{flex-direction:row-reverse}
+.mav{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--white);flex-shrink:0}
+.bub{max-width:83%;padding:11px 15px;border-radius:20px;font-size:14px;line-height:1.65;white-space:pre-wrap;word-break:break-word}
+.bub.a{border-bottom-left-radius:5px;background:var(--white);box-shadow:0 1px 4px rgba(0,0,0,.07);color:var(--ink)}
+.bub.u{border-bottom-right-radius:5px;color:var(--white)}
+.mj .bub.u{background:var(--gold)}
+.ms .bub.u{background:var(--rose)}
+.mj #send-btn{background:var(--gold)}
+.ms #send-btn{background:var(--rose)}
+.mj .qb{color:var(--gold-d);border-color:#E0CC98}
+.ms .qb{color:var(--rose-d);border-color:#F0C8D8}
+.mj .qb:hover{background:var(--gold-l)}
+.ms .qb:hover{background:var(--rose-l)}
+.bub.ty{padding:14px 18px}
+.tds{display:flex;gap:5px}
+.tds span{width:6px;height:6px;border-radius:50%;background:#C0BDB8;animation:td .8s ease-in-out infinite}
+.tds span:nth-child(2){animation-delay:.15s}
+.tds span:nth-child(3){animation-delay:.3s}
+@keyframes td{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.mt{font-size:10px;color:var(--light);margin-top:3px;padding:0 3px}
+.mi2{max-width:200px;border-radius:12px;display:block;margin-bottom:4px;object-fit:cover;max-height:240px;cursor:zoom-in}
+.cpb{display:inline-flex;align-items:center;gap:5px;margin-top:8px;font-size:11px;font-weight:500;padding:4px 10px;border-radius:999px;border:1px solid var(--bord2);background:var(--surf2);cursor:pointer;color:var(--muted);transition:background .15s;font-family:'DM Sans',sans-serif}
+.cpb:hover{background:var(--bord)}
+ 
+/* VTEX RESULTS */
+.vtex-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}
+.vtex-card{background:var(--surf);border:1px solid var(--bord);border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .2s}
+.vtex-card:hover{border-color:var(--gold)}
+.vtex-img{width:100%;height:100px;object-fit:cover;background:var(--bord)}
+.vtex-info{padding:8px}
+.vtex-name{font-size:11px;font-weight:500;color:var(--ink);margin-bottom:2px;line-height:1.3}
+.vtex-price{font-size:12px;color:var(--gold-d);font-weight:500}
+.vtex-id{font-size:10px;color:var(--muted)}
+ 
+/* IMAGE PREVIEW */
+#ipw{display:none;padding:8px 13px 4px;background:var(--white);border-top:1px solid var(--bord);flex-shrink:0;align-items:center;gap:10px}
+#ipw.show{display:flex}
+#pthumb{width:56px;height:56px;border-radius:10px;object-fit:cover;flex-shrink:0}
+.pi{flex:1;min-width:0}.pl{font-size:12px;font-weight:500;color:var(--ink);margin-bottom:1px}.ps2x{font-size:11px;color:var(--muted)}
+.prm{width:24px;height:24px;border-radius:50%;background:var(--surf2);border:1px solid var(--bord2);cursor:pointer;font-size:14px;color:var(--muted);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+ 
+/* QUICK */
+.qw{padding:7px 12px 5px;display:flex;gap:7px;overflow-x:auto;flex-shrink:0}
+.qw::-webkit-scrollbar{display:none}
+.qb{white-space:nowrap;font-size:12px;font-weight:500;padding:5px 12px;border-radius:999px;border:1.5px solid;background:var(--white);cursor:pointer;transition:all .15s;flex-shrink:0;font-family:'DM Sans',sans-serif}
+ 
+/* FLOWS */
+.flow{display:none;padding:10px 13px;overflow-y:auto;flex-shrink:0;max-height:54%;background:var(--surf2);border-top:1px solid var(--bord)}
+.flow-lbl{font-size:10px;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em;font-weight:500}
+.ads-step{background:var(--white);border:1px solid var(--bord);border-radius:13px;padding:14px;margin-bottom:9px}
+.ads-title{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:9px}
+.ads-opts{display:flex;flex-wrap:wrap;gap:7px}
+.ao{font-size:12px;padding:6px 13px;border-radius:999px;border:1.5px solid var(--bord2);background:transparent;cursor:pointer;color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif}
+.ao.sel{border-color:var(--gold);background:var(--gold-l);color:var(--gold-d);font-weight:500}
+.av{display:flex;align-items:center;gap:9px;margin-top:6px}
+.ai{flex:1;padding:9px 12px;border:1.5px solid var(--bord2);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--surf);outline:none}
+.ai:focus{border-color:var(--gold)}
+.ag-btn{width:100%;padding:13px;background:var(--ink);color:var(--white);border:none;border-radius:12px;font-size:14px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:13px}
+.ag-btn:disabled{opacity:.4;cursor:not-allowed}
+.wa-card,.tc{background:var(--white);border:1px solid var(--bord);border-radius:12px;padding:12px 14px;cursor:pointer;transition:border-color .2s;margin-bottom:8px}
+.wa-card:hover,.tc:hover{border-color:var(--gold)}
+.wa-t,.tc-t{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:2px}
+.wa-d,.tc-d{font-size:12px;color:var(--muted);line-height:1.4}
+.tcs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+ 
+/* VTEX SEARCH FLOW */
+.vtex-input-row{display:flex;gap:8px;margin-bottom:10px}
+.vtex-input{flex:1;padding:10px 13px;border:1.5px solid var(--bord2);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--surf);outline:none}
+.vtex-input:focus{border-color:var(--gold)}
+.vtex-search-btn{padding:10px 16px;background:var(--ink);color:var(--white);border:none;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.vtex-site-sel{display:flex;gap:7px;margin-bottom:10px}
+ 
+/* INPUT */
+.inp-area{display:flex;align-items:flex-end;gap:8px;padding:9px 12px 20px;background:var(--white);border-top:1px solid var(--bord);flex-shrink:0}
+.iab{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--bord2);background:var(--surf2);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.iab svg{width:17px;height:17px;stroke:var(--muted);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#msg-input{flex:1;border:1.5px solid var(--bord2);border-radius:20px;padding:9px 14px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--surf);resize:none;outline:none;max-height:110px;transition:border-color .2s;line-height:1.5}
+#msg-input:focus{border-color:var(--gold-m);background:var(--white)}
+#msg-input::placeholder{color:var(--light)}
+#send-btn{width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:transform .15s,opacity .15s;color:var(--white)}
+#send-btn:disabled{opacity:.3;cursor:not-allowed}
+#send-btn:not(:disabled):active{transform:scale(.92)}
+#fi{display:none}
+ 
+/* DRAWER */
+#drawer{position:fixed;inset:0;z-index:50;display:none}
+#drawer.open{display:block}
+.dov{position:absolute;inset:0;background:rgba(0,0,0,.45)}
+.dpan{position:absolute;top:0;right:0;width:min(300px,86vw);height:100%;background:var(--white);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+#drawer.open .dpan{transform:translateX(0)}
+.dhdr{background:var(--ink);padding:44px 18px 18px;flex-shrink:0}
+.dtitle{font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--white);font-weight:400}
+.dsub{font-size:11px;color:var(--light);margin-top:3px}
+.dbody{flex:1;overflow-y:auto;padding:10px 0}
+.dslbl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--light);margin-bottom:3px;display:block;padding:8px 15px 3px}
+.dit{display:flex;align-items:center;gap:9px;padding:9px 15px;cursor:pointer;transition:background .15s}
+.dit:hover{background:var(--surf2)}
+.dit.act{background:var(--gold-l)}
+.dic{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.din{font-size:13px;color:var(--ink);flex:1}
+.dib{font-size:10px;padding:2px 6px;border-radius:999px;flex-shrink:0}
+.ddiv{height:1px;background:var(--bord);margin:7px 15px}
+ 
+/* TOAST */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--ink);color:var(--white);font-size:12px;padding:8px 18px;border-radius:999px;opacity:0;transition:all .25s;pointer-events:none;z-index:9999;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+ 
+/* LIGHTBOX */
+#lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:9999;align-items:center;justify-content:center;cursor:zoom-out}
+#lb.open{display:flex}
+#lb img{max-width:94%;max-height:90dvh;border-radius:12px;object-fit:contain}
+ 
+/* OFFLINE BANNER */
+#offline{display:none;background:var(--danger);color:var(--white);text-align:center;font-size:12px;padding:8px;flex-shrink:0}
+#offline.show{display:block}
+ 
+@media(min-width:500px){
+  body{align-items:center;justify-content:center;background:#2C2A27}
+  #splash,#onboarding,#ps,#app{max-width:430px;width:100%;border-radius:28px;overflow:hidden;box-shadow:0 12px 60px rgba(0,0,0,.35)}
+  #app{height:min(100dvh,870px)}
+  #splash,#ps{position:relative;height:min(100dvh,870px)}
+  #onboarding{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);height:min(100dvh,870px)}
+  #onboarding.out{transform:translate(-50%,-160%)}
+  .toast{bottom:90px}
+}
+</style>
 </head>
 <body>
+ 
+<div id="splash">
+  <p class="sp-orn">Agência Digital 360°</p>
+  <h1 class="sp-logo">Bruna <span>Tessaro</span></h1>
+  <p class="sp-sub">Sistema completo de marketing</p>
+  <div class="sp-bar"><div class="sp-fill"></div></div>
+</div>
+ 
+<div id="offline">Sem conexão — verifique sua internet</div>
+ 
+<div id="onboarding" style="display:none">
+  <div class="ob-hdr">
+    <p class="ob-step">Configuração inicial</p>
+    <h2 class="ob-title">Vamos configurar<br>a sua <em>voz</em> e estilo</h2>
+  </div>
+  <div class="ob-body">
+    <div class="ob-sec">
+      <span class="ob-lbl">Seu nome</span>
+      <input class="ob-input" id="ob-name" type="text" placeholder="Como você gosta de ser chamada?" value="Bruna">
+    </div>
+    <div class="ob-sec">
+      <span class="ob-lbl">Tom de voz — @brunatessaro (joias)</span>
+      <div class="ob-pills" id="pg1">
+        <button class="ob-pill sg" data-g="jt">Elegante e emocional</button>
+        <button class="ob-pill" data-g="jt">Sofisticado e aspiracional</button>
+        <button class="ob-pill" data-g="jt">Caloroso e próximo</button>
+        <button class="ob-pill" data-g="jt">Poético e sensível</button>
+      </div>
+    </div>
+    <div class="ob-sec">
+      <span class="ob-lbl">Tom de voz — @brunatessarosemijoias</span>
+      <div class="ob-pills" id="pg2">
+        <button class="ob-pill sr" data-g="st">Moderno e descontraído</button>
+        <button class="ob-pill" data-g="st">Direto e animado</button>
+        <button class="ob-pill" data-g="st">Jovem e ousado</button>
+        <button class="ob-pill" data-g="st">Amigável e próximo</button>
+      </div>
+    </div>
+    <div class="ob-sec">
+      <span class="ob-lbl">Emoji nos posts</span>
+      <div class="ob-pills" id="pg3">
+        <button class="ob-pill sg" data-g="em">Com moderação</button>
+        <button class="ob-pill" data-g="em">Bastante emoji</button>
+        <button class="ob-pill" data-g="em">Sem emoji</button>
+      </div>
+    </div>
+    <div class="ob-sec">
+      <span class="ob-lbl">Assinatura das legendas (opcional)</span>
+      <input class="ob-input" id="ob-sign" type="text" placeholder="Ex: Venha nos visitar! 💛">
+    </div>
+    <div class="ob-sec">
+      <span class="ob-lbl">Palavras que NUNCA quer ver</span>
+      <input class="ob-input" id="ob-avoid" type="text" placeholder="Ex: barato, promoção, desconto…">
+    </div>
+  </div>
+  <div class="ob-foot">
+    <button class="ob-btn" onclick="finishOb()">Começar a usar o sistema →</button>
+  </div>
+</div>
+ 
+<div id="ps" style="display:none">
+  <div class="ps-top">
+    <p class="ps-greet" id="ps-greet">Bom dia, Bruna</p>
+    <h2 class="ps-title">Qual perfil<br>vamos <em>trabalhar</em>?</h2>
+  </div>
+  <div class="ps-body" id="ps-body"></div>
+</div>
+ 
+<div id="app">
+  <div class="app-hdr">
+    <button class="hbk" onclick="goBack()">‹</button>
+    <div class="hav" id="hav"></div>
+    <div class="hi"><p class="hn" id="hn"></p><div class="hs"><span class="hd2"></span><span>Agente ativo 24h</span></div></div>
+    <span class="hbdg" id="hbdg"></span>
+    <button class="hmenu" onclick="openDr()">☰</button>
+  </div>
+  <div class="mod-hdr" id="mhdr" style="display:none">
+    <span class="mi" id="mi"></span>
+    <span class="ml" id="ml"></span>
+    <span class="mb2" id="mb2"></span>
+  </div>
+ 
+  <div class="msgs" id="msgs"></div>
+ 
+  <div id="ipw">
+    <img id="pthumb" src="" alt="">
+    <div class="pi"><div class="pl">📸 Foto selecionada</div><div class="ps2x">Envie ou adicione texto</div></div>
+    <button class="prm" onclick="rmImg()">×</button>
+  </div>
+ 
+  <!-- ADS FLOW -->
+  <div class="flow" id="ads-flow">
+    <p class="flow-lbl">Criador de campanha ADS — preencha e gere</p>
+    <div class="ads-step">
+      <p class="ads-title">1. Objetivo</p>
+      <div class="ads-opts">
+        <button class="ao" onclick="aSel('obj',this,'Atrair para loja física')">🏪 Loja física</button>
+        <button class="ao" onclick="aSel('obj',this,'Vendas pelo site')">🛒 Site</button>
+        <button class="ao" onclick="aSel('obj',this,'Contato pelo WhatsApp')">💬 WhatsApp</button>
+        <button class="ao" onclick="aSel('obj',this,'Ganhar seguidores')">👥 Seguidores</button>
+        <button class="ao" onclick="aSel('obj',this,'Lançamento de produto')">✨ Lançamento</button>
+      </div>
+    </div>
+    <div class="ads-step">
+      <p class="ads-title">2. Cidade / loja foco</p>
+      <div class="ads-opts">
+        <button class="ao" onclick="aSel('city',this,'Centro de Florianópolis')">🗺 Centro Floripa</button>
+        <button class="ao" onclick="aSel('city',this,'Floripa Shopping Norte')">🛍 Norte da Ilha</button>
+        <button class="ao" onclick="aSel('city',this,'Open Shopping Campeche Sul')">🌊 Sul da Ilha</button>
+        <button class="ao" onclick="aSel('city',this,'Shopping Itaguaçu São José')">📍 São José</button>
+        <button class="ao" onclick="aSel('city',this,'Shopping Via Catarina Palhoça')">📍 Palhoça</button>
+        <button class="ao" onclick="aSel('city',this,'Toda a Grande Florianópolis')">🌐 Toda a região</button>
+      </div>
+    </div>
+    <div class="ads-step">
+      <p class="ads-title">3. Produto ou tema</p>
+      <input class="ai" id="ads-prod" placeholder="Ex: anel de ouro com diamante, relógio Michael Kors…" oninput="chkAds()">
+    </div>
+    <div class="ads-step">
+      <p class="ads-title">4. Orçamento desta campanha</p>
+      <div class="av"><span style="font-size:14px;color:var(--muted)">R$</span><input class="ai" id="ads-bgt" type="number" placeholder="Ex: 400" oninput="chkAds()"><span style="font-size:12px;color:var(--muted)">/campanha</span></div>
+    </div>
+    <button class="ag-btn" id="ag-btn" onclick="genAds()" disabled>Gerar campanha completa com criativos →</button>
+  </div>
+ 
+  <!-- WHATSAPP FLOW -->
+  <div class="flow" id="wa-flow">
+    <p class="flow-lbl">Escolha a situação</p>
+    <div class="wa-card" onclick="waS('Cliente perguntando preço via DM ou WhatsApp')"><div class="wa-t">💰 Cliente pedindo preço</div><div class="wa-d">Converter interesse em venda</div></div>
+    <div class="wa-card" onclick="waS('Cliente que demonstrou interesse mas sumiu há dias')"><div class="wa-t">👻 Cliente que sumiu</div><div class="wa-d">Reengajar sem parecer desesperada</div></div>
+    <div class="wa-card" onclick="waS('Pós-venda — gerar recomendação e fidelização')"><div class="wa-t">⭐ Pós-venda</div><div class="wa-d">Fidelizar e transformar em indicação</div></div>
+    <div class="wa-card" onclick="waS('Cliente reclamando de produto ou atendimento')"><div class="wa-t">🚨 Reclamação ou crise</div><div class="wa-d">Gestão de crise com empatia</div></div>
+    <div class="wa-card" onclick="waS('Prospecção de nova revendedora para o atacado de semi joias')"><div class="wa-t">🤝 Prospectar revendedora</div><div class="wa-d">Atrair para o canal de atacado</div></div>
+    <div class="wa-card" onclick="waS('Aniversário do cliente — mensagem especial e oferta exclusiva')"><div class="wa-t">🎂 Aniversário do cliente</div><div class="wa-d">Mensagem VIP especial</div></div>
+  </div>
+ 
+  <!-- TRAINING FLOW -->
+  <div class="flow" id="tr-flow">
+    <p class="flow-lbl">Treinamento por categoria</p>
+    <div class="tcs">
+      <div class="tc" onclick="trS('joias de ouro 18k — materiais, características, cuidados e argumentos de venda')"><div class="wa-t">💛 Joias ouro 18k</div><div class="wa-d">Material, cuidados, argumentos</div></div>
+      <div class="tc" onclick="trS('semi joias e prata 925 — qualidade, cuidados e como apresentar ao cliente')"><div class="wa-t">🥈 Semi joias</div><div class="wa-d">Prata 925, folheados, alianças</div></div>
+      <div class="tc" onclick="trS('óculos de grife: Prada, Versace, Miu Miu, Ray-Ban — como falar de cada marca')"><div class="wa-t">🕶 Ótica e óculos</div><div class="wa-d">Grifes, UV, armações</div></div>
+      <div class="tc" onclick="trS('relógios: mecânico vs quartz, marcas, como cuidar e argumentos para presentear')"><div class="wa-t">⌚ Relojoaria</div><div class="wa-d">Mecânico, quartz, marcas</div></div>
+      <div class="tc" onclick="trS('técnicas de upsell e cross-sell para joalheria — como sugerir peças complementares')"><div class="wa-t">📈 Upsell</div><div class="wa-d">Aumentar o ticket médio</div></div>
+      <div class="tc" onclick="trS('como lidar com objeção de preço em joias — técnicas de contorno e valorização')"><div class="wa-t">🗣 Objeções</div><div class="wa-d">Contorno de preço</div></div>
+    </div>
+  </div>
+ 
+  <!-- VTEX SEARCH FLOW -->
+  <div class="flow" id="vtex-flow">
+    <p class="flow-lbl">Busca no catálogo do site</p>
+    <div class="vtex-site-sel">
+      <button class="ao" id="vtex-j" onclick="vtexSite('joias',this)">💛 Site de Joias</button>
+      <button class="ao" id="vtex-s" onclick="vtexSite('semi',this)">🥈 Site de Semi Joias</button>
+    </div>
+    <div class="vtex-input-row">
+      <input class="vtex-input" id="vtex-q" placeholder="Ex: anel coração, colar prata, aliança…" onkeydown="if(event.key==='Enter')vtexSearch()">
+      <button class="vtex-search-btn" onclick="vtexSearch()">Buscar</button>
+    </div>
+    <div id="vtex-results"></div>
+  </div>
+ 
+  <div class="qw" id="qw"></div>
+  <div class="inp-area">
+    <button class="iab" onclick="document.getElementById('fi').click()">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2.5"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+    </button>
+    <input type="file" id="fi" accept="image/*" onchange="handleImg(event)">
+    <textarea id="msg-input" rows="1" placeholder="Escreva ou mande uma foto…"></textarea>
+    <button id="send-btn" onclick="send()" disabled>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
+ 
+<div id="drawer">
+  <div class="dov" onclick="closeDr()"></div>
+  <div class="dpan">
+    <div class="dhdr"><p class="dtitle">Módulos</p><p class="dsub">Agência 360° — todos os recursos</p></div>
+    <div class="dbody" id="dbody"></div>
+  </div>
+</div>
+<div id="lb" onclick="this.classList.remove('open')"><img id="lb-img" src="" alt=""></div>
+<div class="toast" id="toast"></div>
+ 
 <script>
-const API_BASE = 'https://bruna360-backend-production.up.railway.app';
-console.log("backend:", API_BASE);
+// ── CONFIG: Aponta para o backend seguro ──
+const API_BASE = window.location.hostname === 'localhost'
+  ? 'http://localhost:3001'
+  : 'https://bruna360-backend-production.up.railway.app'; // Ex: https://bruna360-api.railway.app
+ 
+// ── STATE ──
+let prof=null,hist=[],loading=false,b64=null,mime=null,purl=null,cfg={},mod='chat',ads={obj:'',city:'',prod:'',bgt:''},vtexSiteSelected='joias';
+ 
+// ── DATES ──
+const DATES=[
+  {n:'Dia dos Namorados',d:'2025-06-12',i:'❤️',t:'Maior data para joias e relógios — campanha de presentes'},
+  {n:'Dia dos Pais',d:'2025-08-10',i:'👔',t:'Relógios, pulseiras e conjuntos — foco no presente masculino'},
+  {n:'Dia dos Avós',d:'2025-07-26',i:'👴',t:'Joias especiais e semi joias delicadas — data esquecida pela concorrência'},
+  {n:'Dia das Crianças',d:'2025-10-12',i:'🎈',t:'Semi joias infantis e conjuntos mãe e filha'},
+  {n:'Black Friday',d:'2025-11-28',i:'🛒',t:'Maior semana de vendas online — prepare kits e bundles'},
+  {n:'Natal',d:'2025-12-25',i:'🎄',t:'Presentes, kits especiais e embalagens — toda a linha'},
+  {n:'Réveillon',d:'2026-01-01',i:'🥂',t:'Joias e semi joias para looks de Ano Novo — brilho, cor'},
+  {n:'Dia da Mulher',d:'2026-03-08',i:'🌸',t:'Presentear e se presentear — data estratégica'},
+  {n:'Páscoa',d:'2026-04-05',i:'🐣',t:'Joia como presente alternativo ao chocolate'},
+  {n:'Dia das Mães',d:'2026-05-10',i:'💐',t:'Maior data do ano para joias — planeje com antecedência'},
+  {n:'Formatura (pico)',d:'2025-12-10',i:'🎓',t:'Anéis de formatura e joias comemorativas — alto ticket'},
+  {n:'Casamentos (temporada)',d:'2025-11-01',i:'💍',t:'Alianças e conjuntos de noiva — temporada alta'},
+  {n:'Dia dos Namorados 2026',d:'2026-06-12',i:'❤️',t:'Campanha anual de presentes — planeje cedo'},
+];
+function daysTo(d){const t=new Date();t.setHours(0,0,0,0);return Math.round((new Date(d+'T00:00:00')-t)/86400000)}
+function upcomingAlerts(){return DATES.map(x=>({...x,days:daysTo(x.d)})).filter(x=>x.days>=0&&x.days<=45).sort((a,b)=>a.days-b.days).slice(0,3)}
+ 
+// ── MODULES ──
+const MODS=[
+  {id:'chat',ic:'💬',n:'Chat livre',bl:'Conteúdo',bg:'',bc:''},
+  {id:'legenda',ic:'✍️',n:'Legenda e conteúdo',bl:'Conteúdo',bg:'',bc:''},
+  {id:'produto',ic:'🔍',n:'Análise de produto',bl:'Conteúdo',bg:'',bc:''},
+  {id:'referencia',ic:'📸',n:'Campanha por foto',bl:'Conteúdo',bg:'',bc:''},
+  {id:'hashtags',ic:'🏷️',n:'Hashtags em alta',bl:'Conteúdo',bg:'',bc:''},
+  {id:'horario',ic:'🕐',n:'Melhor horário',bl:'Conteúdo',bg:'',bc:''},
+  {id:'grid',ic:'⬛',n:'Planejamento de grid',bl:'Conteúdo',bg:'',bc:''},
+  {id:'ads',ic:'📣',n:'Criar campanha ADS',bl:'Campanhas',bg:'#FAEEDA',bc:'#854F0B'},
+  {id:'mercado',ic:'📰',n:'Inteligência de mercado',bl:'Campanhas',bg:'',bc:''},
+  {id:'concorrente',ic:'👁',n:'Monitor concorrentes',bl:'Campanhas',bg:'',bc:''},
+  {id:'sorteio',ic:'🎁',n:'Sorteio e engajamento',bl:'Campanhas',bg:'',bc:''},
+  {id:'wa',ic:'💚',n:'Scripts de WhatsApp',bl:'Vendas',bg:'#E1F5EE',bc:'#0F6E56'},
+  {id:'treino',ic:'🎓',n:'Treinar vendedoras',bl:'Vendas',bg:'',bc:''},
+  {id:'vip',ic:'⭐',n:'Programa VIP',bl:'Vendas',bg:'',bc:''},
+  {id:'colab',ic:'🤝',n:'Colabs e influencers',bl:'Crescimento',bg:'',bc:''},
+  {id:'performance',ic:'📊',n:'Análise de performance',bl:'Análise',bg:'',bc:''},
+  {id:'site',ic:'🛒',n:'Busca no site (VTEX)',bl:'Análise',bg:'#E6F1FB',bc:'#185FA5'},
+  {id:'relatorio',ic:'📋',n:'Relatório mensal',bl:'Análise',bg:'',bc:''},
+];
+ 
+function getSys(p){
+  const av=cfg.avoid?`Palavras PROIBIDAS: ${cfg.avoid}.`:'';
+  const sg=cfg.signature?`Assinatura das legendas: "${cfg.signature}"` :'';
+  const em=cfg.emoji==='Bastante emoji'?'Use emojis livremente (3-5/legenda).':cfg.emoji==='Sem emoji'?'NUNCA use emojis.':'Use emojis com moderação (1-3/legenda).';
+  const base=`Você é a Agência 360° da Bruna Tessaro — social media, estrategista de marketing, especialista em joias, semi joias, ótica e relojoaria, disponível 24h.
+ 
+MARCA: 7 lojas na Grande Florianópolis — 2 no Centro Floripa, Floripa Shopping (Norte), Open Shopping Campeche (Sul), Shopping Itaguaçu São José, Via Catarina Palhoça.
+Sites VTEX: brunatessaro.com.br (joias) | brunajoias.com.br (semi joias)
+Budget ADS: R$2.400/mês | WhatsApp: (48) 9 9128-6921
+Produtos: Joias ouro 18k, relógios Miu Miu/Michael Kors/Ray-Ban/Prada/Versace, ótica com receituário, semi joias prata 925 e folheadas, alianças.
+${em} ${av} ${sg}
+Ao analisar foto: identifique tudo, pesquise na web, gere ficha técnica + script de venda.
+Ao receber foto de referência: analise estilo, adapte para a Bruna Tessaro, busque fotos modelo.
+Responda sempre em português brasileiro. Entregue conteúdo pronto para usar.`;
+  return p==='joias'
+    ? base+`\n\nPERFIL @brunatessaro — JOIAS, RELÓGIOS E ÓTICA:\nTom: "${cfg.joiasTom||'Elegante e emocional'}". Público: Mulheres B/C, 28-55 anos. Ticket R$1.000+.\nVoz: elegante, emocional, sofisticada. Momentos especiais, eternidade, amor. Frases poéticas. CTA discreto.`
+    : base+`\n\nPERFIL @brunatessarosemijoias — SEMI JOIAS:\nTom: "${cfg.semiTom||'Moderno e descontraído'}". Público: Mulher moderna 20-45 anos. Ticket até R$200 + atacado.\nVoz: moderna, direta, descontraída. Como amiga antenada. Custo-benefício. CTA direto: "Corre!", "Disponível agora!"`;
+}
+ 
+function getQuick(p,m){
+  const q={
+    chat:p==='joias'?[
+      {l:'📸 Analisar foto',p:'Analisa essa foto do produto: ficha técnica completa e script de venda.'},
+      {l:'✍️ Legenda do dia',p:'Cria uma legenda elegante para um post de hoje para o @brunatessaro.'},
+      {l:'🎬 Roteiro Reel',p:'Cria um roteiro de Reel para o @brunatessaro — produto em destaque.'},
+      {l:'📱 Stories de hoje',p:'Sugere 3 Stories para hoje no @brunatessaro.'},
+      {l:'📰 Tendências',p:'Pesquise na web: tendências de joias e relógios em 2025.'},
+    ]:[
+      {l:'📸 Analisar foto',p:'Analisa essa foto da peça — material, estilo, legenda moderna.'},
+      {l:'✍️ Legenda do dia',p:'Cria uma legenda moderna para o @brunatessarosemijoias hoje.'},
+      {l:'🎬 Reel animado',p:'Cria roteiro de Reel moderno para o @brunatessarosemijoias.'},
+      {l:'📱 Stories de hoje',p:'Sugere 3 Stories para hoje no @brunatessarosemijoias.'},
+      {l:'🤝 Atrair revenda',p:'Cria conteúdo para atrair novas revendedoras para o atacado.'},
+    ],
+    mercado:[
+      {l:'🌍 Joias 2025',p:'Pesquise na web: maiores tendências de joias em 2025 no mundo e Brasil.'},
+      {l:'🕶 Ótica 2025',p:'Pesquise: tendências de óculos e armações para 2025.'},
+      {l:'⌚ Relógios',p:'Pesquise: relógios e marcas em alta no mercado brasileiro 2025.'},
+      {l:'📲 Instagram nicho',p:'O que as maiores marcas de joias do Brasil postam no Instagram agora?'},
+    ],
+    colab:[
+      {l:'🔍 Influencers Floripa',p:'Pesquise: principais influencers de moda e lifestyle de Florianópolis para parceria.'},
+      {l:'📝 Abordagem',p:'Cria script para abordar um influencer de Floripa para parceria.'},
+      {l:'📋 Briefing',p:'Cria briefing completo para influencer que vai postar sobre a Bruna Tessaro.'},
+    ],
+    sorteio:[
+      {l:'🎁 Sorteio completo',p:'Cria campanha completa de sorteio: regras, copy, Reel e Story de resultado.'},
+      {l:'📋 Regulamento',p:'Cria regulamento claro e atrativo para um sorteio no Instagram.'},
+    ],
+    performance:[
+      {l:'📊 Analisar dados',p:'Vou colar os dados do Instagram Insights — analise e me diga o que está funcionando.'},
+      {l:'📈 Comparar perfis',p:'Me ajuda a comparar a performance dos dois perfis e onde investir mais.'},
+    ],
+  };
+  return q[m]||q.chat;
+}
+ 
+// ── ONBOARDING ──
+document.querySelectorAll('.ob-pill').forEach(b=>b.addEventListener('click',function(){
+  const g=this.dataset.g;
+  document.querySelectorAll(`[data-g="${g}"]`).forEach(x=>x.classList.remove('sg','sr'));
+  this.classList.add(g.startsWith('s')&&g!=='st'||g==='em'?'sg':g==='st'?'sr':'sg');
+  if(g==='jt')this.classList.add('sg');
+  if(g==='st')this.classList.add('sr');
+  if(g==='em')this.classList.add('sg');
+}));
+ 
+function finishOb(){
+  cfg={
+    name:document.getElementById('ob-name').value||'Bruna',
+    joiasTom:document.querySelector('[data-g="jt"].sg')?.textContent||'Elegante e emocional',
+    semiTom:document.querySelector('[data-g="st"].sr')?.textContent||'Moderno e descontraído',
+    emoji:document.querySelector('[data-g="em"].sg')?.textContent||'Com moderação',
+    signature:document.getElementById('ob-sign').value,
+    avoid:document.getElementById('ob-avoid').value,
+  };
+  localStorage.setItem('bt360',JSON.stringify(cfg));
+  document.getElementById('onboarding').classList.add('out');
+  setTimeout(()=>{document.getElementById('onboarding').style.display='none';showPS();},500);
+}
+ 
+// ── SPLASH ──
+window.addEventListener('load',()=>{
+  const s=localStorage.getItem('bt360');
+  if(s)cfg=JSON.parse(s);
+  setTimeout(()=>{
+    document.getElementById('splash').classList.add('out');
+    setTimeout(()=>{
+      document.getElementById('splash').style.display='none';
+      Object.keys(cfg).length?showPS():(document.getElementById('onboarding').style.display='flex');
+    },600);
+  },2200);
+});
+ 
+window.addEventListener('online',()=>document.getElementById('offline').classList.remove('show'));
+window.addEventListener('offline',()=>document.getElementById('offline').classList.add('show'));
+ 
+// ── PROFILE SCREEN ──
+function showPS(){
+  const ps=document.getElementById('ps');
+  ps.style.display='flex';ps.classList.remove('out');
+  const h=new Date().getHours();
+  document.getElementById('ps-greet').textContent=`${h<12?'Bom dia':h<18?'Boa tarde':'Boa noite'}, ${cfg.name||'Bruna'}`;
+  renderPS();
+}
+ 
+function renderPS(){
+  const alerts=upcomingAlerts();
+  let html='';
+  if(alerts.length){
+    html+=`<span class="ps-lbl">⚠️ Alertas de campanha — 45 dias</span>`;
+    alerts.forEach(a=>{
+      const cls=a.days<=7?'u':a.days<=20?'s':'p';
+      const dtxt=a.days===0?'É hoje!':a.days===1?'É amanhã!':`Faltam ${a.days} dias`;
+      html+=`<div class="al-box ${cls}"><div class="al-ico">${a.i}</div><div style="flex:1"><p class="al-ttl">${a.n}</p><p class="al-desc">${a.t}</p><p class="al-days ${cls}">${dtxt}</p><button class="al-btn" onclick="selWithAlert('joias','${a.n}','${a.t}')">Criar campanha →</button></div></div>`;
+    });
+  }
+  html+=`<span class="ps-lbl" style="margin-top:${alerts.length?'14px':'0'}">Escolha o perfil</span>`;
+  html+=`<div class="pc j" onclick="selProf('joias')"><div class="pc-top"><div class="pc-av avj">BT</div><div><p class="pc-name">Bruna Tessaro Joias</p><p class="pc-hdl">@brunatessaro</p></div></div><p class="pc-desc">Tom ${cfg.joiasTom||'elegante e emocional'}. Público que valoriza momentos especiais e qualidade premium.</p><div class="pc-pills"><span class="pill pj">Joias ouro 18k</span><span class="pill pj">Relógios</span><span class="pill pj">Ótica grife</span><span class="pill pj">Ticket R$1.000+</span></div><span class="pc-arr">›</span></div>`;
+  html+=`<div class="pc s" onclick="selProf('semi')"><div class="pc-top"><div class="pc-av avs">BS</div><div><p class="pc-name">Bruna Tessaro Semijoias</p><p class="pc-hdl">@brunatessarosemijoias</p></div></div><p class="pc-desc">Tom ${cfg.semiTom||'moderno e descontraído'}. Mulher que quer estilo e qualidade sem gastar muito.</p><div class="pc-pills"><span class="pill ps2">Semi joias</span><span class="pill ps2">Prata 925</span><span class="pill ps2">Alianças</span><span class="pill ps2">Até R$200</span></div><span class="pc-arr">›</span></div>`;
+  html+=`<div style="background:var(--surf2);border-radius:13px;padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.9;margin-top:4px">📍 Centro Floripa · Floripa Shopping · Campeche · Itaguaçu São José · Via Catarina Palhoça</div>`;
+  html+=`<button onclick="resetCfg()" style="width:100%;margin-top:10px;padding:10px;background:transparent;border:1px solid var(--bord2);border-radius:10px;font-size:12px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif">⚙️ Reconfigurar voz e estilo</button>`;
+  document.getElementById('ps-body').innerHTML=html;
+}
+ 
+function resetCfg(){localStorage.removeItem('bt360');cfg={};document.getElementById('ps').style.display='none';document.getElementById('onboarding').style.display='flex';}
+ 
+function selWithAlert(p,name,tip){selProf(p);setTimeout(()=>sendAuto(`Quero criar uma campanha para "${name}". ${tip}. Me ajuda com a campanha completa?`),800);}
+ 
+// ── SELECT PROFILE ──
+function selProf(p){
+  prof=p;hist=[];rmImg();hideFlows();
+  const isJ=p==='joias';
+  const av=document.getElementById('hav');
+  av.textContent=isJ?'BT':'BS';av.className=`hav ${isJ?'avj':'avs'}`;
+  document.getElementById('hn').textContent=isJ?'Joias & Ótica':'Semijoias';
+  const bdg=document.getElementById('hbdg');
+  bdg.textContent=isJ?'JOIAS':'SEMI JOIAS';
+  bdg.style.cssText=isJ?'background:var(--gold-l);color:var(--gold-d)':'background:var(--rose-l);color:var(--rose-d)';
+  const app=document.getElementById('app');
+  app.className=`show m${isJ?'j':'s'}`;
+  document.getElementById('ps').classList.add('out');
+  setTimeout(()=>document.getElementById('ps').style.display='none',400);
+  buildDrawer();setMod('chat');
+  document.getElementById('msgs').innerHTML='';
+  const h=new Date().getHours(),gr=h<12?'Bom dia':h<18?'Boa tarde':'Boa noite';
+  const w=isJ?`${gr}, ${cfg.name||'Bruna'}! ✨\n\nEstou pronta para o @brunatessaro.\n\nManda uma foto de produto, pede legenda, cria Reel, analisa tendências, gera script de venda para as meninas da loja.\n\nUse o menu ☰ para explorar todos os módulos.`
+    :`${gr}, ${cfg.name||'Bruna'}! 💕\n\nEstou aqui para o @brunatessarosemijoias!\n\nFoto do produto, legenda moderna, campanha de ADS, busca no site — é só pedir!\n\nUse o menu ☰ para explorar todos os módulos.`;
+  agMsg(w,false);
+}
+ 
+function goBack(){
+  document.getElementById('app').className='';document.getElementById('app').style.display='none';
+  showPS();prof=null;hist=[];
+}
+ 
+// ── DRAWER ──
+function buildDrawer(){
+  const blocks=[...new Set(MODS.map(m=>m.bl))];
+  let html='';
+  blocks.forEach(bl=>{
+    html+=`<div class="dslbl">${bl}</div>`;
+    MODS.filter(m=>m.bl===bl).forEach(m=>{
+      const bdg=m.bg?`<span class="dib" style="background:${m.bg};color:${m.bc}">${m.n.split(' ').pop()}</span>`:'';
+      html+=`<div class="dit" id="di-${m.id}" onclick="setMod('${m.id}');closeDr()"><div class="dic">${m.ic}</div><span class="din">${m.n}</span>${bdg}</div>`;
+    });
+    html+=`<div class="ddiv"></div>`;
+  });
+  document.getElementById('dbody').innerHTML=html;
+}
+function openDr(){document.getElementById('drawer').classList.add('open')}
+function closeDr(){document.getElementById('drawer').classList.remove('open')}
+ 
+// ── SET MODULE ──
+const MOD_INTROS={
+  produto:'Manda a foto do produto — analiso tudo: material, marca, estilo, valor de mercado. Depois entrego a ficha técnica completa e o script de venda para as vendedoras.',
+  referencia:'Manda uma foto de outra marca ou Instagram que você se inspirou — analiso o estilo e crio uma campanha similar para a Bruna Tessaro, com fotos modelo da web.',
+  mercado:'Posso pesquisar tendências de joias, semi joias, ótica e relojoaria agora. O que quer saber?',
+  concorrente:'Me fala o @ do concorrente ou o tipo de loja que quer analisar em Florianópolis — faço um benchmarking completo.',
+  hashtags:'Me fala o tema do post e entrego as melhores hashtags para usar hoje, baseadas no que está performando agora.',
+  horario:'Baseado em tendências do Instagram para o nicho de joias na Grande Florianópolis, te digo o melhor horário para cada tipo de conteúdo.',
+  grid:'Me conta o que tem planejado para essa semana e monto a sugestão de sequência para o grid ficar bonito e estratégico.',
+  performance:'Cole aqui os dados do Instagram Insights (impressões, alcance, salvamentos, seguidores ganhos/perdidos) e analiso tudo.',
+  colab:'Posso pesquisar influencers de moda de Floripa, criar o script de abordagem e o briefing completo para parceria.',
+  vip:'Cria mensagem de pós-venda, aniversário, conteúdo exclusivo VIP. Me fala com qual situação quer começar.',
+  sorteio:'Cria o roteiro completo de um sorteio — regras, copy do post, Reel de lançamento, Story de resultado.',
+  relatorio:'Cole os dados do mês (posts, alcance, engajamento, seguidores) e gero o relatório com análise e metas.',
+};
+ 
+function setMod(id){
+  mod=id;hideFlows();
+  document.querySelectorAll('.dit').forEach(e=>e.classList.remove('act'));
+  const di=document.getElementById(`di-${id}`);if(di)di.classList.add('act');
+  const m=MODS.find(x=>x.id===id);
+  const mh=document.getElementById('mhdr');
+  if(id==='chat'){mh.style.display='none';}
+  else{
+    mh.style.display='flex';
+    document.getElementById('mi').textContent=m?.ic||'';
+    document.getElementById('ml').textContent=m?.n||'';
+    const mb=document.getElementById('mb2');
+    if(m?.bg){mb.textContent=m.n.split(' ').pop();mb.style.cssText=`background:${m.bg};color:${m.bc};font-size:10px;padding:2px 6px;border-radius:999px`;mb.style.display='';}
+    else mb.style.display='none';
+  }
+  const inp=document.querySelector('.inp-area');
+  const qw=document.getElementById('qw');
+ 
+  if(id==='ads'){document.getElementById('ads-flow').style.display='block';inp.style.display='none';qw.style.display='none';return;}
+  if(id==='wa'){document.getElementById('wa-flow').style.display='block';inp.style.display='none';qw.style.display='none';return;}
+  if(id==='treino'){document.getElementById('tr-flow').style.display='block';inp.style.display='none';qw.style.display='none';return;}
+  if(id==='site'){document.getElementById('vtex-flow').style.display='block';inp.style.display='none';qw.style.display='none';return;}
+ 
+  inp.style.display='flex';qw.style.display='flex';
+  qw.innerHTML='';
+  getQuick(prof,id).forEach(a=>{
+    const btn=document.createElement('button');btn.className='qb';btn.textContent=a.l;
+    btn.onclick=()=>{document.getElementById('msg-input').value=a.p;updBtn();send();};
+    qw.appendChild(btn);
+  });
+  if(id!=='chat'&&MOD_INTROS[id])agMsg(MOD_INTROS[id],false);
+}
+ 
+function hideFlows(){
+  ['ads-flow','wa-flow','tr-flow','vtex-flow'].forEach(f=>document.getElementById(f).style.display='none');
+  document.querySelector('.inp-area').style.display='flex';
+  document.getElementById('qw').style.display='flex';
+}
+ 
+// ── ADS ──
+function aSel(k,el,v){
+  const grp=k==='obj'?'ads-flow .ads-step:nth-child(1) .ao':'ads-flow .ads-step:nth-child(2) .ao';
+  document.getElementById('ads-flow').querySelectorAll(k==='obj'?'.ads-step:first-child .ao':'.ads-step:nth-child(2) .ao').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');ads[k]=v;chkAds();
+}
+function chkAds(){
+  ads.prod=document.getElementById('ads-prod').value;
+  ads.bgt=document.getElementById('ads-bgt').value;
+  document.getElementById('ag-btn').disabled=!(ads.obj&&ads.city&&ads.prod&&ads.bgt);
+}
+function genAds(){
+  const prompt=`Cria campanha ADS completa:\n• Objetivo: ${ads.obj}\n• Cidade/Loja: ${ads.city}\n• Produto: ${ads.prod}\n• Orçamento: R$ ${ads.bgt}\n• Perfil: ${prof==='joias'?'@brunatessaro':'@brunatessarosemijoias'}\n\nEntregue:\n1. HEADLINE principal (até 40 chars)\n2. COPY em 3 versões diferentes\n3. CTA recomendado\n4. Público-alvo sugerido\n5. 3 IDEIAS DE CRIATIVO (o que filmar/fotografar)\n6. ROTEIRO de Reel patrocinado (30s)\n7. Distribuição do orçamento (dias, segmentação)`;
+  hideFlows();setMod('chat');setTimeout(()=>{document.getElementById('msg-input').value=prompt;send();},300);
+}
+function waS(sit){const p=`Cria script completo de WhatsApp para: ${sit}. Pronto para copiar e usar. Inclua: mensagem principal + 2 variações + dicas de quando usar.`;hideFlows();setTimeout(()=>{document.getElementById('msg-input').value=p;send();},200);}
+function trS(top){const p=`Cria material completo de treinamento para vendedoras sobre: ${top}. Inclua: explicação, argumentos, objeções comuns, curiosidades. Formato fácil de ler.`;hideFlows();setTimeout(()=>{document.getElementById('msg-input').value=p;send();},200);}
+ 
+// ── VTEX SEARCH ──
+function vtexSite(site,el){
+  vtexSiteSelected=site;
+  document.querySelectorAll('.vtex-site-sel .ao').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+}
+async function vtexSearch(){
+  const q=document.getElementById('vtex-q').value.trim();
+  if(!q)return;
+  const res=document.getElementById('vtex-results');
+  res.innerHTML='<p style="font-size:12px;color:var(--muted);padding:8px 0">Buscando…</p>';
+  try{
+    const r=await fetch(`${API_BASE}/api/vtex/search?q=${encodeURIComponent(q)}&site=${vtexSiteSelected}`);
+    const data=await r.json();
+    if(!data.products?.length){res.innerHTML='<p style="font-size:12px;color:var(--muted);padding:8px 0">Nenhum produto encontrado.</p>';return;}
+    let html=`<p style="font-size:11px;color:var(--muted);margin-bottom:8px">${data.total} produtos encontrados para "${q}"</p><div class="vtex-grid">`;
+    data.products.slice(0,6).forEach(p=>{
+      html+=`<div class="vtex-card" onclick="window.open('${p.url}','_blank')">
+        ${p.image?`<img src="${p.image}" class="vtex-img" loading="lazy" onerror="this.style.display='none'">`:'<div class="vtex-img" style="background:var(--bord);display:flex;align-items:center;justify-content:center;font-size:24px">💎</div>'}
+        <div class="vtex-info">
+          <div class="vtex-name">${p.name}</div>
+          ${p.price?`<div class="vtex-price">R$ ${p.price.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div>`:''}
+          <div class="vtex-id">ID: ${p.id}</div>
+        </div>
+      </div>`;
+    });
+    html+=`</div>`;
+    if(data.products.length>6)html+=`<p style="font-size:11px;color:var(--muted);margin-top:6px">Mostrando 6 de ${data.total}. Refine a busca para ver mais específicos.</p>`;
+    res.innerHTML=html;
+  }catch(e){res.innerHTML='<p style="font-size:12px;color:var(--danger);padding:8px 0">Erro ao buscar. Verifique o backend.</p>';}
+}
+ 
+// ── IMAGE ──
+function handleImg(e){
+  const file=e.target.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=ev=>{purl=ev.target.result;b64=purl.split(',')[1];mime=file.type||'image/jpeg';
+    document.getElementById('pthumb').src=purl;document.getElementById('ipw').classList.add('show');updBtn();};
+  r.readAsDataURL(file);e.target.value='';
+}
+function rmImg(){b64=null;mime=null;purl=null;document.getElementById('ipw').classList.remove('show');document.getElementById('pthumb').src='';updBtn();}
+ 
+// ── MESSAGES ──
+function now(){return new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}
+function agMsg(text,copy=true){
+  const msgs=document.getElementById('msgs');
+  const isJ=prof==='joias';
+  const row=document.createElement('div');row.className='mr';
+  const av=document.createElement('div');av.className=`mav ${isJ?'avj':'avs'}`;av.textContent='B';
+  const col=document.createElement('div');col.style.cssText='display:flex;flex-direction:column;max-width:83%';
+  const bub=document.createElement('div');bub.className='bub a';bub.textContent=text;
+  if(copy){const cb=document.createElement('button');cb.className='cpb';cb.innerHTML='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar';cb.onclick=()=>navigator.clipboard.writeText(text).then(()=>showToast('Copiado! ✓'));bub.appendChild(cb);}
+  const t=document.createElement('div');t.className='mt';t.textContent=now();
+  col.appendChild(bub);col.appendChild(t);row.appendChild(av);row.appendChild(col);msgs.appendChild(row);msgs.scrollTop=msgs.scrollHeight;
+}
+function usrMsg(text,img){
+  const msgs=document.getElementById('msgs');
+  const row=document.createElement('div');row.className='mr u';
+  const col=document.createElement('div');col.style.cssText='display:flex;flex-direction:column;max-width:83%;align-items:flex-end';
+  const bub=document.createElement('div');bub.className='bub u';
+  if(img){bub.style.padding='8px';const i=document.createElement('img');i.src=img;i.className='mi2';i.onclick=()=>{document.getElementById('lb-img').src=img;document.getElementById('lb').classList.add('open');};bub.appendChild(i);if(text){const c=document.createElement('div');c.style.cssText='font-size:13px;padding:4px 4px 2px;opacity:.85';c.textContent=text;bub.appendChild(c);}}
+  else bub.textContent=text;
+  const t=document.createElement('div');t.className='mt';t.style.textAlign='right';t.textContent=now();
+  col.appendChild(bub);col.appendChild(t);row.appendChild(col);msgs.appendChild(row);msgs.scrollTop=msgs.scrollHeight;
+}
+function showTyping(){
+  const msgs=document.getElementById('msgs');const isJ=prof==='joias';
+  const row=document.createElement('div');row.className='mr';row.id='ty';
+  const av=document.createElement('div');av.className=`mav ${isJ?'avj':'avs'}`;av.textContent='B';
+  const bub=document.createElement('div');bub.className='bub a ty';bub.innerHTML='<div class="tds"><span></span><span></span><span></span></div>';
+  row.appendChild(av);row.appendChild(bub);msgs.appendChild(row);msgs.scrollTop=msgs.scrollHeight;
+}
+function rmTyping(){const e=document.getElementById('ty');if(e)e.remove();}
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+ 
+// ── INPUT ──
+const inp=document.getElementById('msg-input');
+inp.addEventListener('input',()=>{inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,110)+'px';updBtn();});
+inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();if(!document.getElementById('send-btn').disabled)send();}});
+function updBtn(){document.getElementById('send-btn').disabled=!(inp.value.trim()||b64);}
+ 
+// ── SEND ──
+async function send(){
+  const text=inp.value.trim(),hasImg=!!b64;
+  if((!text&&!hasImg)||loading)return;
+  loading=true;inp.value='';inp.style.height='auto';updBtn();
+  usrMsg(text||null,hasImg?purl:null);
+  const content=hasImg?[
+    {type:'image',source:{type:'base64',media_type:mime,data:b64}},
+    {type:'text',text:text||(mod==='produto'?'Analisa essa foto: ficha técnica completa + script de venda para as vendedoras.':mod==='referencia'?'Analisa o estilo desta imagem de referência e cria uma campanha similar para a Bruna Tessaro.':'Analisa essa foto e me ajuda.')}
+  ]:text;
+  hist.push({role:'user',content});
+  rmImg();showTyping();
+  try{
+    const apiMsgs=hist.map((m,i)=>{
+      if(i===hist.length-1)return m;
+      if(Array.isArray(m.content)){const tp=m.content.find(c=>c.type==='text');return{role:m.role,content:tp?tp.text:'[foto enviada]'};}
+      return m;
+    });
+    const r=await fetch(`${API_BASE}/api/chat`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({messages:apiMsgs,system:getSys(prof)})
+    });
+    const data=await r.json();
+    rmTyping();
+    const reply=data.text||data.error||'Erro ao processar. Tente novamente!';
+    hist.push({role:'assistant',content:reply});
+    const isContent=hasImg||['legenda','reel','roteiro','carrossel','script','anúncio','hashtag','stories','copy','cria','gera','escreve','faz','analisa','busca','pesquisa','relatório','treinamento','sorteio'].some(w=>(text||'').toLowerCase().includes(w));
+    agMsg(reply,isContent);
+  }catch(e){rmTyping();agMsg('Não consegui conectar ao servidor. Verifique sua conexão! 🔄',false);}
+  loading=false;updBtn();
+}
+async function sendAuto(t){inp.value=t;updBtn();await send();}
+ 
+// ── PWA SERVICE WORKER ──
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('/sw.js').catch(()=>{});
+  });
+}
 </script>
 </body>
 </html>
